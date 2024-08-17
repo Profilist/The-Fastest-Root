@@ -9,6 +9,7 @@ import {
   useMap,
 } from "@vis.gl/react-google-maps";
 import styles from "./index.module.css";
+import { useRouter } from "next/router";
 
 require("dotenv").config();
 
@@ -20,10 +21,26 @@ const index: React.FC = () => {
   const [locations, setLocations] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const router = useRouter();
+  const [costcoChecked, setCostcoChecked] = useState<boolean>(
+    router.query.costcoChecked === 'true'
+  );
+  const [storeNumber, setStoreNumber] = useState<number>(
+    parseInt(router.query.storeNumber as string, 10) || 1
+  );
+  
+  const handleCostcoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCostcoChecked(e.target.checked);
+  };
+
+  const handleStoreNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStoreNumber(parseInt(e.target.value, 10) || 1);
+  };
+
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/locations"); 
+        const response = await fetch("http://localhost:8080/api/locations");
         const data = await response.json();
         setLocations(data.locations);
       } catch (error) {
@@ -35,8 +52,6 @@ const index: React.FC = () => {
 
     fetchLocations();
   }, []);
-
-  console.log(locations);
 
   const generateId = (index: number): string => {
     return String.fromCharCode(65 + index);
@@ -52,13 +67,27 @@ const index: React.FC = () => {
         <div className={styles.tripPanel}>
           <h2>YOUR TRIP</h2>
           <div className={styles.tripInfo}>
-            <p>3 stops, Costco Membership</p>
-            <a href="#" className={styles.optionsLink}>
-              Options
-            </a>
+          <label>
+            Costco Membership
+              <input
+                type="checkbox"
+                className={styles.costcoCheckbox}
+                checked={costcoChecked}
+                onChange={handleCostcoChange}
+              />
+            </label>
+            <label>
+              Stops:
+              <input
+                type="number"
+                className={styles.filterCheckbox}
+                value={storeNumber}
+                onChange={handleStoreNumberChange}
+              />
+            </label>
           </div>
           <ol className={styles.tripList}>
-          {locations.map((location, index) => (
+            {locations.map((location, index) => (
               <li key={generateId(index)}>
                 {generateId(index)}. {location}
               </li>

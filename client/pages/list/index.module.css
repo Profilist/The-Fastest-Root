@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+.listWrapperContainer {
+  margin: 5vh;
+  height: 90vh;
+  width: 113rem;
+  background-color: #CDD8C8;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.terrain {
+  background-image: url('/terrain.jpg');
+  height: 100%;
+  width: 100%;
+  opacity: 7.5%;
+  position: absolute;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.ListWrapper {
+  position: relative;
+  z-index: 500;
+}
+
+.input {
+  z-index: 1000;
+  background-color: #3F8668;
+  border: none;
+}
+
+.input::placeholder {
+  color: #9BCCB8;
+  font-size: 2vh;
+  background: transparent;
+  line-height: 1.5;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  background: transparent;
+}
+
+.input:hover::placeholder {
+  opacity: 0.5;
+}
+
+.ListInput {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 2vh 4vw;
+  width: 85%;
+  box-sizing: border-box;
+  background-color: #3F8668;
+  color: #F9EFE3;
+  height: 7vh;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  outline: none;
+  font-size: 2vh;
+  line-height: 1.5;
+}
+
+.List {
+  background-color: #F9EFE3;
+  color: #395846;
+  border-bottom: #c4c4c4 solid 1px;
+  padding: 2vh 4vw;
+  font-size: 2vh;
+  width: 85%;
+  box-sizing: border-box;
+}
+
+.button {
+  outline: none;
+  display: block;
+  width: 85%;
+  padding: 2vh 4vw;
+  border: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: #6D4C3D;
+  color: #F9EFE3;
+  font-size: 2vh;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.button:hover {
+  background-color: #5A3F2B;
+}
+
+.filterOptions {
+  display: flex;
+  justify-content: center;
+  font-size: 1.5vh;
+  color: #395846;
+  background-color: #3F8668;
+  width: 85%;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+
+.filterOptions label {
+  display: flex;
+  align-items: center;
+  color: #F9EFE3;
+}
+
+.filterCheckbox {
+  border: none;
+  color: #395846;
+  padding: 0.5vh;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 3vw;
+}
+
+/* * {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+}
+.App {
+  background-color: #F9EFE3;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  margin: 5vh;
+  height: 90vh;
+  width: 100%;
+  background-color: #CDD8C8;
+  background-image: "./";
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.terrain {
+  height: 100%;
+  width: 100%;
+  opacity: 7.5%;
+  position: absolute;
+  object-fit: cover;
+  z-index: 1;
+}
+
+
+.ListWrapper {
+  position: relative;
+  z-index: 500;
+}
+
+.input {
+  z-index: 1000;
+  background-color: #3F8668;
+  border: none;
+}
+
+::placeholder {
+  color: #9BCCB8;
+  font-size: 2vh;
+  background: transparent;
+  line-height: 1.5; 
+}
+
+input, select, textarea{
+  color: #F9EFE3;
+  font-style: italic;
+}
+
+:hover::placeholder {
+  opacity: 0.5; 
+}
+textarea:focus, input:focus{
+  outline: none;
+  background: transparent;
+}
+
+:focus {
+  outline: none;
+}
+
+.ListInput {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 2vh 4vw; 
+  width: 85%; 
+  box-sizing: border-box;
+  background-color: #3F8668;
+  color: #F9EFE3;
+  height: 7vh; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  outline: none;
+  font-size: 2vh; 
+  line-height: 1.5; 
+}
+
+.ListInput::placeholder {
+  color: #F9EFE3;
+  opacity: 0.7;
+  background: transparent;
+  font-size: 2vh; 
+  line-height: 1.5; 
+}
+
+.ListInput:focus,
+.ListInput:active {
+  background-color: #4a9d7c;
+  outline: none;
+}
+
+.List {
+  background-color: #F9EFE3;
+  color: #395846;
+  border-bottom: #c4c4c4 solid 1px;
+  padding: 2vh 4vw; 
+  font-size: 2vh; 
+  width: 85%;
+  box-sizing: border-box; 
+}
+
+  .List {
+    font-size: 2vh; 
+    padding: 2vh 3vw; 
+}
+
+.Button {
+  outline: none;
+  display: block;
+  width: 85%;
+  padding: 2vh 4vw;
+  border: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: #6D4C3D;
+  color: #F9EFE3;
+  font-size: 2vh;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box; 
+}
+
+.Button:hover {
+  background-color: #5A3F2B;
+}
+
+.FilterOptions {
+  display: flex;
+  justify-content: center;
+  font-size: 1.5vh;
+  color: #395846;
+  background-color: #3F8668;
+  width: 85%;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+}
+
+.FilterOptions label {
+  display: flex;
+  align-items: center;
+  color: #F9EFE3;;
+}
+
+.filter-checkbox {
+  border: none;
+  color: #395846;
+  padding: 0.5vh;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 3vw;
+} */

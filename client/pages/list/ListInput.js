@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import styles from './index.module.css'
 
 export const ListInput = ({addItem}) => {
   const [value,setValue] = useState("")
@@ -9,8 +10,8 @@ export const ListInput = ({addItem}) => {
     setValue("")
   }
   return (
-    <form className="ListInput" onSubmit={handleSubmit}>
-        <input type="text" className="input" value = {value} placeholder="Add an item..." onChange={(e) => setValue(e.target.value)} ></input>
+    <form className={styles.ListInput} onSubmit={handleSubmit}>
+        <input type="text" className={styles.input} value = {value} placeholder="Add an item..." onChange={(e) => setValue(e.target.value)} ></input>
     </form>
   )
 }

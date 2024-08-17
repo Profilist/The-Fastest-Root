@@ -39,6 +39,22 @@
   color: #395846;
 }
 
+.filterCheckbox {
+    border: none;
+    color: #395846;
+    padding: 0.25rem;
+    margin: 0.25rem;
+    border-radius: 0.25rem;
+    width: 2rem;
+}
+
+.costcoCheckbox {
+    border: none;
+    color: #395846;
+    margin: 0.5rem;
+    border-radius: 0.25rem;
+}
+
 .mapPanel {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
