@@ -6,8 +6,8 @@ const {scrapNoFrills, scrapFreshCo, scrapFoodBasics, scrapTNT} = require('./scra
 
 app.use(cors());
 
-app.get("/api/home", (req, res) => {
-    res.json({ message: "Welcome to the home page!" });
+app.get("/api/locations", (req, res) => {
+    res.json({ locations: ["No Frills", "Food Basics", "FreshCo", "TNT"] });
 });
 
 app.get("/api/scrap", async (req, res) => {
