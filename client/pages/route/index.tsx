@@ -25,8 +25,6 @@ interface Store {
 }
 
 const index: React.FC = () => {
-  const [locations, setLocations] = useState<string[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [tripData, setTripData] = useState<Item[]>([]);
 
   const router = useRouter();
@@ -70,10 +68,38 @@ const index: React.FC = () => {
     return acc;
   }, []);
 
+  console.log("Stores:");
   console.log(stores);
 
-  const generateId = (index: number): string => {
-    return String.fromCharCode(65 + index);
+  function capitalizeWords(str: string): string {
+    return str
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  }
+
+  const handleGoClick = () => {
+    const storeLocations: { [key: string]: string } = {
+      "Food Basics": "43.87749259953832,-79.4113334157598",
+      "FreshCo": "43.880638386115955,-79.39524664624328",
+      "NoFrills": "43.8547691,-79.4297517",
+      "T&T": "43.8622441,-79.4326858",
+    };
+
+    const origin = "10077 Bayview Ave, Richmond Hill, ON L4C 2L4";
+    const destination = storeLocations[stores[stores.length - 1].name];
+    const waypoints = stores
+      .slice(0, -1)
+      .map((store) => storeLocations[store.name])
+      .join("|");
+
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
+      origin
+    )}&destination=${encodeURIComponent(
+      destination
+    )}&waypoints=${encodeURIComponent(waypoints)}&travelmode=driving`;
+
+    window.open(googleMapsUrl, "_blank");
   };
 
   return (
@@ -103,19 +129,19 @@ const index: React.FC = () => {
           </div>
           <ol className={styles.tripList}>
           {stores.map(store => (
-              <li key={store.name}>
+              <li className={styles.listItem} key={store.name}>
                 <h3>{store.name}</h3>
                 <ul>
                   {store.items.map(item => (
-                    <li key={item.productName}>
-                      {item.productName} - {item.price}
+                    <li className={styles.foodItem} key={item.productName}>
+                      {capitalizeWords(item.productName)} - {item.price}
                     </li>
                   ))}
                 </ul>
               </li>
             ))}
           </ol>
-          <button className={styles.goButton}>GO</button>
+          <button onClick={handleGoClick} className={styles.goButton}>GO</button>
         </div>
 
         <div className={styles.mapPanel}>
@@ -138,7 +164,7 @@ const index: React.FC = () => {
               }
             >
               {/* <PoiMarkers pois={locations} /> */}
-              <Directions />
+              <Directions stores={stores} />
             </Map>
           </APIProvider>
         </div>
@@ -152,7 +178,11 @@ const index: React.FC = () => {
   );
 };
 
-function Directions() {
+interface DirectionsProps {
+  stores: Store[];
+}
+
+function Directions({ stores }: DirectionsProps) {
   const map = useMap();
   const routesLibrary = useMapsLibrary("routes");
   const [directionsService, setDirectionsService] =
@@ -161,17 +191,26 @@ function Directions() {
     useState<google.maps.DirectionsRenderer>();
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
 
-  const waypts: google.maps.DirectionsWaypoint[] = [
-    {
-      location: { lat: 43.87749259953832, lng: -79.4113334157598 },
+  const storeLocations: { [key: string]: google.maps.LatLngLiteral } = {
+    "Food Basics": { lat: 43.87749259953832, lng: -79.4113334157598 },
+    "FreshCo": { lat: 43.880638386115955, lng: -79.39524664624328 },
+    "NoFrills": { lat: 43.8547691, lng: -79.4297517 },
+    "T&T": { lat: 43.8622441, lng: -79.4326858 },
+  };
+
+  const waypts: google.maps.DirectionsWaypoint[] = stores.length > 1 
+  ? stores.slice(0, -1).map(store => ({
+      location: storeLocations[store.name],
       stopover: true,
-    },
-    {
-      location: { lat: 43.880638386115955, lng: -79.39524664624328 },
-      stopover: true,
-    },
-    { location: { lat: 43.8547691, lng: -79.4297517 }, stopover: true },
-  ];
+    }))
+  : [];
+
+  console.log("Waypoints:");
+  console.log(waypts);
+
+  const finalDestination = storeLocations[stores[stores.length - 1].name];
+  console.log("Final Destination:");
+  console.log(finalDestination);
 
   useEffect(() => {
     if (!routesLibrary || !map) {
@@ -188,8 +227,8 @@ function Directions() {
 
     directionsService
       .route({
-        origin: "56 Farmstead Rd, Richmond Hill, ON L4S 1W3",
-        destination: { lat: 43.8622441, lng: -79.4326858 },
+        origin: "10077 Bayview Ave, Richmond Hill, ON L4C 2L4",
+        destination: finalDestination,
         travelMode: google.maps.TravelMode.DRIVING,
         waypoints: waypts,
         optimizeWaypoints: true,

@@ -1,18 +1,24 @@
 function parsePrice(priceString) {
-    if (priceString === "Price Not Available") {
+    if (priceString.charAt(0) !== "$") {
         return 100;
     }
     return parseFloat(priceString.replace('$', ''));
 }
 
 function cheapestRouteCalculator(firstStore, secondStore, thirdStore, fourthStore, maxNumberOfStores) {
-    maxNumberOfStores = parseInt(maxNumberOfStores);
-    if (maxNumberOfStores === null || maxNumberOfStores > 4 || maxNumberOfStores < 1) {
+    if (!maxNumberOfStores || isNaN(parseInt(maxNumberOfStores))) {
         maxNumberOfStores = 4;
+    } else {
+        maxNumberOfStores = parseInt(maxNumberOfStores);
     }
 
+    if (maxNumberOfStores > 4 || maxNumberOfStores < 1) {
+        maxNumberOfStores = 4;
+    }
+    console.log(maxNumberOfStores);
+
     const AllStores = [firstStore, secondStore, thirdStore, fourthStore];
-    const StoreNames = ["NoFrills", "FreshCo", "Food Basics", "TNT"];
+    const StoreNames = ["NoFrills", "FreshCo", "Food Basics", "T&T"];
 
     if (maxNumberOfStores === 2) {
         let minimum_cheapest_price = 10000;

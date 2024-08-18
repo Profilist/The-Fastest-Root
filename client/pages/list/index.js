@@ -26,6 +26,11 @@ export const ListWrapper = () => {
     setLoading(true);
     try {
       console.log("fetching prices");
+      let maxStores = storeNumber;
+      if (!maxStores || isNaN(parseInt(maxStores))) {
+        maxStores = 4;
+      }
+
       const response = await fetch(
         `http://localhost:8080/api/scrap?items=${items
           .map((item) => item.i)
@@ -38,7 +43,7 @@ export const ListWrapper = () => {
         pathname: "/route",
         query: {
           costcoChecked: costcoChecked ? "true" : "false",
-          storeNumber,
+          storeNumber: maxStores.toString(),
           data: JSON.stringify(data),
         },
       });
