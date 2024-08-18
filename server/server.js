@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 8080;
+const PORT = "https://the-fastest-root-server.vercel.app/";
 const cors = require("cors");
 const {
   scrapNoFrills,
@@ -45,8 +45,8 @@ app.get("/api/scrap", async (req, res) => {
   });
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 module.exports = app;
