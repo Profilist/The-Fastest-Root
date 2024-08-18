@@ -14,9 +14,9 @@ const scrapNoFrills = async (items) => {
   const lowestPricedProducts = [];
 
   for (const item of items) {
-    await page.goto(`${url}${item}`);
     console.log(`start waiting for ${item}`);
-    await page.waitForSelector(".css-epcqr3", { timeout: 5_000 });
+    await page.goto(`${url}${item}`);
+    await page.waitForSelector(".css-epcqr3", { timeout: 8_000 });
     console.log(`done waiting for ${item}`);
 
     const productNames = await page.evaluate(() => {

@@ -10,6 +10,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  font-family: "Inter", sans-serif;
 }
 
 .terrain {
@@ -19,6 +20,10 @@
   opacity: 7.5%;
   position: absolute;
   object-fit: cover;
+  z-index: 0;
+}
+
+.content {
   z-index: 1;
 }
 

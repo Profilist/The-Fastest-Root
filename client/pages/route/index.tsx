@@ -13,13 +13,21 @@ import { useRouter } from "next/router";
 
 require("dotenv").config();
 
-interface Location {
+interface Item {
+  store: string;
+  productName: string;
+  price: string;
+}
+
+interface Store {
   name: string;
+  items: Item[];
 }
 
 const index: React.FC = () => {
   const [locations, setLocations] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [tripData, setTripData] = useState<Item[]>([]);
 
   const router = useRouter();
   const [costcoChecked, setCostcoChecked] = useState<boolean>(
@@ -38,28 +46,35 @@ const index: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/locations");
-        const data = await response.json();
-        setLocations(data.locations);
-      } catch (error) {
-        console.error("Error fetching locations:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (router.query.data) {
+      const parsedData = JSON.parse(router.query.data as string);
+      console.log("Parsed Data:", parsedData); 
 
-    fetchLocations();
+      const tripArray = parsedData.ret;
+
+      if (Array.isArray(tripArray)) {
+        setTripData(tripArray);
+      } else {
+        console.error("Expected an array, but got:", tripArray);
+      }
+    }
+  }, [router.query]);
+
+  const stores: Store[] = tripData.reduce((acc: Store[], item: Item) => {
+    const storeIndex = acc.findIndex(store => store.name === item.store);
+    if (storeIndex === -1) {
+      acc.push({ name: item.store, items: [item] });
+    } else {
+      acc[storeIndex].items.push(item);
+    }
+    return acc;
   }, []);
+
+  console.log(stores);
 
   const generateId = (index: number): string => {
     return String.fromCharCode(65 + index);
   };
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <div className={styles.page}>
@@ -87,9 +102,16 @@ const index: React.FC = () => {
             </label>
           </div>
           <ol className={styles.tripList}>
-            {locations.map((location, index) => (
-              <li key={generateId(index)}>
-                {generateId(index)}. {location}
+          {stores.map(store => (
+              <li key={store.name}>
+                <h3>{store.name}</h3>
+                <ul>
+                  {store.items.map(item => (
+                    <li key={item.productName}>
+                      {item.productName} - {item.price}
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ol>
