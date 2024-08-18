@@ -12,10 +12,6 @@ const { cheapestRouteCalculator, calculateSavings } = require("./route");
 
 app.use(cors());
 
-app.get("/api/locations", (req, res) => {
-  res.json({ locations: ["No Frills", "Food Basics", "FreshCo", "TNT"] });
-});
-
 app.get("/api/scrap", async (req, res) => {
   const items = req.query.items.split(",");
   const maxStores = req.query.maxStores;
@@ -24,12 +20,6 @@ app.get("/api/scrap", async (req, res) => {
   const pricesFreshCo = await scrapFreshCo(items);
   const pricesFoodBasics = await scrapFoodBasics(items);
   const pricesTNT = await scrapTNT(items);
-
-  console.log("done prices");
-  //   console.log(pricesNoFrills);
-  //   console.log(pricesFreshCo);
-  //   console.log(pricesFoodBasics);
-  //   console.log(pricesTNT);
 
   const ret = cheapestRouteCalculator(
     pricesNoFrills,

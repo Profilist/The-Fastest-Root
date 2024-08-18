@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { ListInput } from "./ListInput";
-import { List } from "./List";
+import ListInput from "./ListInput";
+import List from "./List";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
 import styles from "./index.module.css";
 import Loading from "./Loading";
-import { Popup } from "./Popup";
+import Popup from "./Popup";
 
 uuidv4();
 

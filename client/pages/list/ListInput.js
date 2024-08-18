@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styles from './index.module.css'
 
-export const ListInput = ({addItem}) => {
+const ListInput = ({addItem}) => {
   const [value,setValue] = useState("")
 
   const handleSubmit = e => {
@@ -15,3 +15,5 @@ export const ListInput = ({addItem}) => {
     </form>
   )
 }
+
+export default ListInput;

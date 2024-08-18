@@ -24,7 +24,7 @@ interface Store {
   items: Item[];
 }
 
-const index: React.FC = () => {
+const Index: React.FC = () => {
   const [tripData, setTripData] = useState<Item[]>([]);
   const [savings, setSavings] = useState<string>("0.00");
   const [percentageSaved, setPercentageSaved] = useState<string>("0.00");
@@ -180,7 +180,7 @@ const index: React.FC = () => {
 
         <div className={styles.summaryPanel}>
           <p>
-            Great job! You saved ${savings}! (That's{" "}
+            Great job! You saved ${savings}! (That&apos;s{" "}
             <span style={{ color: "#FF8282" }}>{percentageSaved}%</span> in
             savings){" "}
           </p>
@@ -207,21 +207,10 @@ function Directions({ stores, setDistance }: DirectionsProps) {
 
   const storeLocations: { [key: string]: google.maps.LatLngLiteral } = {
     "Food Basics": { lat: 43.87749259953832, lng: -79.4113334157598 },
-    FreshCo: { lat: 43.880638386115955, lng: -79.39524664624328 },
-    NoFrills: { lat: 43.8547691, lng: -79.4297517 },
+    "FreshCo": { lat: 43.880638386115955, lng: -79.39524664624328 },
+    "NoFrills": { lat: 43.8547691, lng: -79.4297517 },
     "T&T": { lat: 43.8622441, lng: -79.4326858 },
   };
-
-  if (stores.length === 0) {
-    console.error("No stores available for route calculation.");
-    return;
-  }
-
-  const lastStore = stores[stores.length - 1];
-  if (!lastStore || !storeLocations[lastStore.name]) {
-    console.error("Invalid store data or missing location.");
-    return;
-  }
 
   const waypts: google.maps.DirectionsWaypoint[] =
     stores.length > 1
@@ -231,51 +220,79 @@ function Directions({ stores, setDistance }: DirectionsProps) {
         }))
       : [];
 
-  const finalDestination = storeLocations[stores[stores.length - 1].name];
+  const finalDestination = stores.length > 0 ? storeLocations[stores[stores.length - 1].name] : null;
 
   useEffect(() => {
-    if (routesLibrary && map && !directionsService) {
-      setDirectionsService(new routesLibrary.DirectionsService());
-    }
-    if (routesLibrary && map && !directionsRenderer) {
-      setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
+    if (routesLibrary && map) {
+      if (!directionsService) {
+        setDirectionsService(new routesLibrary.DirectionsService());
+      }
+      if (!directionsRenderer) {
+        setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
+      }
     }
   }, [routesLibrary, map, directionsService, directionsRenderer]);
 
   useEffect(() => {
-    if (!directionsService || !directionsRenderer) {
-      return;
+    if (directionsService && directionsRenderer && finalDestination) {
+      directionsService
+        .route({
+          origin: "10077 Bayview Ave, Richmond Hill, ON L4C 2L4",
+          destination: finalDestination,
+          travelMode: google.maps.TravelMode.DRIVING,
+          waypoints: waypts,
+          optimizeWaypoints: true,
+        })
+        .then((response) => {
+          directionsRenderer.setDirections(response);
+          setRoutes(response.routes);
+
+          const routeDistance = response.routes[0]?.legs.reduce((total, leg) => {
+            const legDistance = leg.distance?.text || "0 km";
+            const value = parseFloat(legDistance.replace(/[^\d.]/g, ""));
+            return total + value;
+          }, 0);
+
+          const unit = response.routes[0]?.legs[0]?.distance?.text.includes("mi") ? " mi" : " km";
+          const totalDistance = `${routeDistance.toFixed(2)}${unit}`;
+          setDistance(totalDistance || "Unknown");
+        });
     }
+  }, [directionsService, directionsRenderer, finalDestination, waypts, setDistance]);
+  // useEffect(() => {
+  //   if (!directionsService || !directionsRenderer) {
+  //     return;
+  //   }
 
-    directionsService
-      .route({
-        origin: "10077 Bayview Ave, Richmond Hill, ON L4C 2L4",
-        destination: finalDestination,
-        travelMode: google.maps.TravelMode.DRIVING,
-        waypoints: waypts,
-        optimizeWaypoints: true,
-      })
-      .then((response) => {
-        directionsRenderer.setDirections(response);
-        setRoutes(response.routes);
+  //   directionsService
+  //     .route({
+  //       origin: "10077 Bayview Ave, Richmond Hill, ON L4C 2L4",
+  //       destination: finalDestination,
+  //       travelMode: google.maps.TravelMode.DRIVING,
+  //       waypoints: waypts,
+  //       optimizeWaypoints: true,
+  //     })
+  //     .then((response) => {
+  //       directionsRenderer.setDirections(response);
+  //       setRoutes(response.routes);
 
-        const routeDistance = response.routes[0]?.legs.reduce((total, leg) => {
-          const legDistance = leg.distance?.text || "0 km";
-          const value = parseFloat(legDistance.replace(/[^\d.]/g, ""));
-          return total + value;
-        }, 0);
+  //       const routeDistance = response.routes[0]?.legs.reduce((total, leg) => {
+  //         const legDistance = leg.distance?.text || "0 km";
+  //         const value = parseFloat(legDistance.replace(/[^\d.]/g, ""));
+  //         return total + value;
+  //       }, 0);
 
-        const unit = response.routes[0]?.legs[0]?.distance?.text.includes("mi")
-          ? " mi"
-          : " km";
-        const totalDistance = `${routeDistance.toFixed(2)}${unit}`;
-        setDistance(totalDistance || "Unknown");
-      });
-  }, [directionsService, directionsRenderer]);
+  //       const unit = response.routes[0]?.legs[0]?.distance?.text.includes("mi")
+  //         ? " mi"
+  //         : " km";
+  //       const totalDistance = `${routeDistance.toFixed(2)}${unit}`;
+  //       setDistance(totalDistance || "Unknown");
+  //     });
+  // }, [directionsService, directionsRenderer]);
 
   console.log(routes);
 
   return null;
 }
 
-export default index;
+export default Index;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Popup.module.css';
 
-export const Popup = ({ isOpen, history, onClose }) => {
+const Popup = ({ isOpen, history, onClose }) => {
   if (!isOpen) return null;
 
   const itemsList = history.map(item => item.i).join(', ');
@@ -16,3 +16,5 @@ export const Popup = ({ isOpen, history, onClose }) => {
     </div>
   );
 };
+
+export default Popup;
