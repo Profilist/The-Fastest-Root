@@ -22,18 +22,23 @@ export const ListWrapper = () => {
   const handleOpenPopup = () => setIsPopupOpen(true);
   const handleClosePopup = () => setIsPopupOpen(false);
 
-  const addItem = item => {
-    const newItem = { id: uuidv4(), i: item, completed: false, isEditing: false };
+  const addItem = (item) => {
+    const newItem = {
+      id: uuidv4(),
+      i: item,
+      completed: false,
+      isEditing: false,
+    };
     if (items.length < maxItems) {
-      setItems([...items, newItem])
-      console.log(items)
+      setItems([...items, newItem]);
+      console.log(items);
     }
 
     setHistory([...history, newItem]);
 
-    console.log('Current items:', items);
-    console.log('All items added:', history);
-  }
+    console.log("Current items:", items);
+    console.log("All items added:", history);
+  };
 
   const handleRoute = async () => {
     setLoading(true);
@@ -49,15 +54,16 @@ export const ListWrapper = () => {
           .map((item) => item.i)
           .join(",")}&maxStores=${storeNumber}`
       );
-      const data = await response.json();
-      console.log(data);
+      const { ret, savings } = await response.json();
+      console.log({ ret, savings });
 
       router.push({
         pathname: "/route",
         query: {
           costcoChecked: costcoChecked ? "true" : "false",
           storeNumber: maxStores.toString(),
-          data: JSON.stringify(data),
+          data: JSON.stringify(ret), 
+          savings: JSON.stringify(savings), 
         },
       });
     } catch (error) {
@@ -68,42 +74,49 @@ export const ListWrapper = () => {
   };
 
   return (
-    <div className={styles.listWrapperContainer}>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <div className={styles.terrain} />
-          <div className={styles.content}>
-            <div className={styles.filterOptions}></div>
-            <ListInput addItem={addItem}></ListInput>
-            <div className={styles.filterOptions}>
-              <label className={styles.costcoLabel}>Costco</label>
-              <input
-                type="checkbox"
-                className={styles.filterCheckbox}
-                checked={costcoChecked}
-                onChange={(e) => setCostcoChecked(e.target.checked)}
+    <div className={styles.pageWrapper}>
+      <div className={styles.listWrapperContainer}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <div className={styles.terrain} />
+            <div className={styles.content}>
+              <ListInput addItem={addItem}></ListInput>
+              <div className={styles.filterOptions}>
+                <label className={styles.costcoLabel}>Costco</label>
+                <input
+                  type="checkbox"
+                  className={styles.filterCheckbox}
+                  checked={costcoChecked}
+                  onChange={(e) => setCostcoChecked(e.target.checked)}
+                />
+                <label className={styles.storeLabel}>Max # of Stores</label>
+                <input
+                  type="number"
+                  className={styles.filterCheckbox}
+                  value={storeNumber}
+                  onChange={(e) => setStoreNumber(e.target.value)}
+                />
+              </div>
+              {items.map((item, index) => (
+                <List i={item} key={index} />
+              ))}
+              <button className={styles.view} onClick={handleOpenPopup}>
+                View All
+              </button>
+              <Popup
+                isOpen={isPopupOpen}
+                history={history}
+                onClose={handleClosePopup}
               />
-              <label className={styles.storeLabel}>Max # of Stores</label>
-              <input
-                type="number"
-                className={styles.filterCheckbox}
-                value={storeNumber}
-                onChange={(e) => setStoreNumber(e.target.value)}
-              />
+              <button className={styles.button} onClick={handleRoute}>
+                Find Route
+              </button>
             </div>
-            {items.map((item, index) => (
-              <List i={item} key={index} />
-            ))}
-            <button className={styles.view} onClick={handleOpenPopup}>View All</button>
-            <Popup isOpen={isPopupOpen} history={history} onClose={handleClosePopup} />
-            <button className={styles.button} onClick={handleRoute}>
-              Find Route
-            </button>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

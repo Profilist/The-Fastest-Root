@@ -8,7 +8,7 @@ const {
   scrapFoodBasics,
   scrapTNT,
 } = require("./scrap");
-const { cheapestRouteCalculator } = require("./route");
+const { cheapestRouteCalculator, calculateSavings } = require("./route");
 
 app.use(cors());
 
@@ -26,10 +26,10 @@ app.get("/api/scrap", async (req, res) => {
   const pricesTNT = await scrapTNT(items);
 
   console.log("done prices");
-  console.log(pricesNoFrills);
-  console.log(pricesFreshCo);
-  console.log(pricesFoodBasics);
-  console.log(pricesTNT);
+  //   console.log(pricesNoFrills);
+  //   console.log(pricesFreshCo);
+  //   console.log(pricesFoodBasics);
+  //   console.log(pricesTNT);
 
   const ret = cheapestRouteCalculator(
     pricesNoFrills,
@@ -39,10 +39,19 @@ app.get("/api/scrap", async (req, res) => {
     maxStores
   );
 
+  const savings = calculateSavings(
+    pricesNoFrills,
+    pricesFreshCo,
+    pricesFoodBasics,
+    pricesTNT
+  );
+
   console.log(ret);
+  console.log(savings);
 
   res.json({
     ret,
+    savings
   });
 });
 

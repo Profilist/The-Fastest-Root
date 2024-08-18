@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+.pageWrapper {
+  background-color: #F9EFE3;
+  height: 98vh;
+  width: 99.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .listWrapperContainer {
   margin: 5vh;
   height: 90vh;
@@ -90,6 +99,10 @@
   outline: none;
   font-size: 2vh;
   line-height: 1.5;
+  border-top-left-radius: 10px; 
+  border-top-right-radius: 10px; 
+  border-bottom-left-radius: 0;  
+  border-bottom-right-radius: 0; 
 }
 
 .List {
@@ -144,7 +157,7 @@
   background-color: #3F8668;
   width: 85%;
   padding-top: 1vh;
-  padding-bottom: 1vh;
+  padding-bottom: 2vh;
 }
 
 .filterOptions label {
