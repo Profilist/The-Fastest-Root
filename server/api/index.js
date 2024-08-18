@@ -21,23 +21,36 @@ app.get("/api/scrap", async (req, res) => {
   const maxStores = req.query.maxStores;
 
   const pricesNoFrills = await scrapNoFrills(items);
-  const pricesFreshCo = await scrapFreshCo(items);
-  const pricesFoodBasics = await scrapFoodBasics(items);
-  const pricesTNT = await scrapTNT(items);
+  // const pricesFreshCo = await scrapFreshCo(items);
+  // const pricesFoodBasics = await scrapFoodBasics(items);
+  // const pricesTNT = await scrapTNT(items);
 
+  // const ret = cheapestRouteCalculator(
+  //   pricesNoFrills,
+  //   pricesFreshCo,
+  //   pricesFoodBasics,
+  //   pricesTNT,
+  //   maxStores
+  // );
   const ret = cheapestRouteCalculator(
     pricesNoFrills,
-    pricesFreshCo,
-    pricesFoodBasics,
-    pricesTNT,
+    pricesNoFrills,
+    pricesNoFrills,
+    pricesNoFrills,
     maxStores
   );
 
+  // const savings = calculateSavings(
+  //   pricesNoFrills,
+  //   pricesFreshCo,
+  //   pricesFoodBasics,
+  //   pricesTNT
+  // );
   const savings = calculateSavings(
     pricesNoFrills,
-    pricesFreshCo,
-    pricesFoodBasics,
-    pricesTNT
+    pricesNoFrills,
+    pricesNoFrills,
+    pricesNoFrills
   );
 
   console.log(ret);
