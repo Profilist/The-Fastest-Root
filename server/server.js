@@ -12,6 +12,10 @@ const { cheapestRouteCalculator, calculateSavings } = require("./route");
 
 app.use(cors());
 
+app.get("/api/locations", (req, res) => {
+    res.json({ locations: ["No Frills", "Food Basics", "FreshCo", "TNT"] });
+  });
+
 app.get("/api/scrap", async (req, res) => {
   const items = req.query.items.split(",");
   const maxStores = req.query.maxStores;
