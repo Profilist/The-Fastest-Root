@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-function index() {
+function Index() {
+  const router = useRouter();
 
-  const [message, setMessage] = useState("Loading");
-
-  // useEffect(() => {
-  //   fetch('http://localhost:8080/api/home').then(
-  //     res => res.json()
-  //   ).then(
-  //     data => {
-  //       console.log(data)
-  //       setMessage(data.message)
-  //     }
-  //   )
-  // }, [])
+  useEffect(() => {
+    router.push('/list');
+  }, [router]);
 
   return (
-    <div>{message}</div>
-  )
+    <div></div>
+  );
 }
 
-export default index;
+export default Index;
