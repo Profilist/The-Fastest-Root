@@ -1,0 +1,49 @@
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; 
+}
+
+.popupContent {
+  background: #f9efe3;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+}
+
+.closeButton {
+  background: #3f8668;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.closeButton:hover {
+  background: #ff1a1a;
+}
+
+.popupContent h2 {
+  margin: 0 0 10px;
+}
+
+.popupContent p {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+  word-wrap: break-word; 
+}
+
+.h2 {
+  color: #3f8668;
+}
