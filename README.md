@@ -1,5 +1,5 @@
 # The Fastest Root 
-> A web app to find the most optimal grocery shopping route based on the current lowest possible prices.
+> A web app that calculates the cheapest and fastest grocery shopping route based on real-time pricing data.
 
 ## ✨ Demo
 [![Demo Video](https://i.imgur.com/PK2YHCa.png)](https://youtu.be/ZRt7RqxBIsE?t=59)
@@ -7,12 +7,14 @@
 ## 🚀 Getting Started
 Clone the repository and run this command in the server directory:
 ```bash
+npm i
 npm run start
 ```
 Visit [the-fastest-root.vercel.app](the-fastest-root.vercel.app) to use the app.
 
 Or run the development server using this command in both directories:
 ```bash
+npm i
 npm run dev
 ```
 
@@ -20,7 +22,22 @@ The client (frontend) is hosted on [http://localhost:3000](http://localhost:3000
 
 The server (backend) [http://localhost:8080](http://localhost:8080). 
 
-## Contributors
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Node.js]: https://img.shields.io/badge/node.js-000000?style=for-the-badge&logo=nodedotjs
+[Node-url]: https://nodejs.org/en
+[Express.js]: https://img.shields.io/badge/express.js-000000?style=for-the-badge&logo=expressdotjs
+[Express-url]: https://expressjs.com/
+
+## 🛠 Built With
+* [![Next][Next.js]][Next-url]
+* [![React][React.js]][React-url]
+* [![Node][Node.js]][Node-url]
+* [![Express][Express.js]][Express-url]
+
+## 👤 Contributors
 <table>
   <tr>
     <td align="center">
